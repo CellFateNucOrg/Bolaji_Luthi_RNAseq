@@ -1,6 +1,14 @@
-# Bolaji_RNAseq
+# Bolaji_Luthi_RNAseq
+
+Used for basic alignment and exploratory analysis of RNAseq data for:
+
+**Cohesin forms fountains at active enhancers in C. elegans** *Bolaji N. Lüthi, Jennifer I. Semple, Anja Haemmerli, Saurabh Thapliyal, Kalyan Ghadage, Klement Stojanovski, Dario D’Asaro, Moushumi Das, Nick Gilbert, Dominique A. Glauser, Benjamin Towbin, Daniel Jost, Peter Meister bioRxiv 2023.07.14.549011; doi: https://doi.org/10.1101/2023.07.14.549011*
+
+[now accepted in Nature Communications]
 
 Based on pipeline created by Jenny Semple (SMC_RNAseq) and Todor Gitchev(CeFTALL).
+
+Fintal figures used in paper are in https://github.com/CellFateNucOrg/Luthi_etal
 
 ## Installation and preparation
 
@@ -41,7 +49,7 @@ Installation will be done primarily with conda you need to make sure the base en
 
 run script: 
 ```
-    ./install_ceFTALL_env.sh
+    ./install_env.sh
 ```
 
 For R installation there is some variation between bioinformatics and ubelix clusters where you can use module load and Pertz cluster where you use a singularity image of R.
@@ -69,7 +77,7 @@ If you have PE sequencing, use the following headers:
     
 Names of the fastqFiles (with full path) and the sampleName (sampleName must be unique to each row) are essential for mapping. The other fields are used by DESeq2 to create appropriate comparison groupings and can be changed according to your data.
 
-### 1.1 Map RNA-seq reads
+### 1.2 Map RNA-seq reads
 
 Open the _01_mapRNA.sh file and change the #SBATCH --array=1-24%5 line to reflect the number of samples in your fastqList.csv file (here 24 files which will be processed in batches of 5 so as not to overload the server).
 
@@ -82,29 +90,47 @@ In SLURM environment use the following command:
 sbatch _01_mapRNAreads.sh 
 ```    
 
-### 1.1 Differential Expression (DESeq) analysis
+### 1.3 Differential Expression (DESeq2) analysis
 
+Differential expression and some QC plots are performed in R running the following script:
 
-In SLURM environment, start differential expression analysis with the command: 
+```
+DESeq2_analysis_2_coh1.R
+```
 
-    sbatch <path>/sbatch_02_ceDESeqAnalysis_salmon.sh <fastqList.csv> <outpuFolder>
+As QC, compared results with DESeq2 results from Das et al. where same RNAseq was processed together with cleavage of other SMC complexes. Data slightly different, but largely similar (correlation 0.97-99). See *./compareDatasets.R* script.
 
-Example usage:
+### 1.4 Further analysis
 
-    sbatch sbatch_02_ceDESeqAnalysis_salmon.sh ./data/fastqList_t-all_ringo_kingston.csv
-    sbatch sbatch_02_ceDESeqAnalysis_salmon.sh ./data/fastqList_t-all_ringo_kingston_284_285.csv
+**Enhancers:**
 
-### A. Troubleshooting
+*./compareGenesWithEnhancers.R*
 
-Check log files and if you notice error messages with missing software reinstall the missing package. Example:
-Error message:
-    wiggletools: not found
-    # install it in our conda environment:
-    conda activate ceftall
-    conda install wiggletools
-    
+**Fountain features:**
 
-Sometimes it's just enough to activate manually the environment before running a sbatch script:
-    conda activate ceftall
+*./compareAtFountains.R*
 
-If you have errors with the R library installation you might have a clash of versions - you might need to remove the the libraries in the .libPaths() location and reinstall.
+**GO and tissue enrichement:**
+
+*./compareTissueAndGO.R
+
+./allPlots_TEA.Rmd
+
+./allPlots_WORMCAT.Rmd*
+
+**compare to single cell RNAseq:**
+
+*./compareToScRNAseq.R*
+
+**Gene set enrichment and orthologs in CdLS**
+
+*./compareGeneLists_diopt_WormToHuman.R
+
+./compareGeneLists_ortholist_WormToHuman.R
+
+./compareGeneLists_ortholist_HumanToWorm.R*
+
+### 2. Differentail transcript expression (Sleuth)
+
+*./Sleuth_analysis.R*
+
