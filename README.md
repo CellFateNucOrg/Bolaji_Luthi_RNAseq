@@ -8,7 +8,7 @@ Used for basic alignment and exploratory analysis of RNAseq data for:
 
 Based on pipeline created by Jenny Semple (SMC_RNAseq) and Todor Gitchev(CeFTALL).
 
-Fintal figures used in paper are in https://github.com/CellFateNucOrg/Luthi_etal
+Final figures used in paper are in https://github.com/CellFateNucOrg/Luthi_etal
 
 ## Installation and preparation
 
