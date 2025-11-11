@@ -24,7 +24,7 @@ lfcVal=0
 
 #cds_baseline_post_sub.rds
 #https://zenodo.org/record/7958249/files/cds_baseline_post_sub.rds?download=1
-cds<-readRDS("/Users/semple/Documents/MeisterLab/Datasets/Ghaddar_2023_scRNAseq_yAd/cds_baseline_post_sub.rds")
+cds<-readRDS("/Volumes/external.data/MeisterLab/publicData/scRNAseq/Ghaddar_2023_scRNAseq_yAd_wormseq/Ghaddar2023_cds_baseline_post_sub.rds")
 sigUp<-read.csv("/Users/semple/Documents/MeisterLab/otherPeopleProjects/Bolaji/BolajiRNAseq_20211216/sigUp_DEseq2.csv",header=F)
 sigDown<-read.csv("/Users/semple/Documents/MeisterLab/otherPeopleProjects/Bolaji/BolajiRNAseq_20211216/sigDown_DEseq2.csv",header=F)
 sigUp$upVdown<-"COH-1_up"
@@ -212,8 +212,8 @@ table(nt$`h / m`)
 ## compare to postembryonic neuronal development genes------
 ##########-
 # Temporal transitions in the post-mitotic nervous system of Caenorhabditis elegans. HaoSheng Sun & Oliver Hobert  https://doi.org/10.1038/s41586-021-04071-4
-# supplementary table 3
-devNeur<-read_excel("~/Downloads/41586_2021_4071_MOESM7_ESM.xlsx",
+# supplementary table 4
+devNeur<-read_excel("./publicData/41586_2021_4071_MOESM7_ESM.xlsx",
                     col_types=c("text",rep("numeric",12)))
 dim(devNeur)
 head(devNeur)
@@ -235,20 +235,21 @@ GGally::ggpairs(devNeur1[colIdx]) + geom_vline(xintercept=0,type=2,alpha=0.3) +
   geom_hline(yintercept=0,type=2,alpha=0.3)
 
 # distance to fountains ----
-devNeurSig<-read_excel("~/Downloads/41586_2021_4071_MOESM8_ESM.xlsx")
+# supplementary table 5
+devNeurSig<-read_excel("./publicData/41586_2021_4071_MOESM8_ESM.xlsx")
 dim(devNeurSig)
 head(devNeurSig)
 names(devNeurSig)[1]<-"sequenceID"
 
-devNeurNS<- devNeur[!(devNeur$sequenceID %in% devNeurSig$sequenceID),]
+devNeurNS<- devNeur[!(devNeur$publicID %in% devNeurSig$sequenceID),]
 
 metadata<-readRDS("ce11GeneGR_WS285.rds")
 
 sigGR<-metadata[metadata$sequenceID %in% devNeurSig$sequenceID |
                   metadata$publicID %in% devNeurSig$sequenceID] # only 2612 from 2639
 
-nsGR<-metadata[metadata$sequenceID %in% devNeurNS$sequenceID |
-                  metadata$publicID %in% devNeurNS$sequenceID] # only 5281 from 5335
+nsGR<-metadata[metadata$sequenceID %in% devNeurNS$publicID |
+                  metadata$publicID %in% devNeurNS$publicID] # only 5281 from 5335
 
 fountains<-readRDS("/Users/semple/Documents/MeisterLab/otherPeopleProjects/fountains/detected_fountains_equalQ.RDS")
 fountains$fountainName<-paste0("fount",1:length(fountains))

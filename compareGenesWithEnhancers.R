@@ -4,7 +4,7 @@ library(BSgenome.Celegans.UCSC.ce11)
 library(tidyr)
 library(ggpubr)
 library(dplyr)
-library(seqplots)
+#library(seqplots)
 library(RColorBrewer)
 library(ggtext)
 
@@ -29,22 +29,9 @@ padjVal=0.05
 RNAseqDir="/Users/semple/Documents/MeisterLab/otherPeopleProjects/Bolaji/BolajiRNAseq_20211216"
 
 fileList<-data.frame(
-  sampleName=c("AMA","FLAVO","COH1cs","TOP1","TOP2","TOP1_0h","TOP1_0.5h","TOP1_1h",
-               "TOP1_2h","TOP2_0h","TOP2_0.5h","TOP2_1h", "TOP2_2h"),
+  sampleName=c("COH1cs"),
   filePath=paste0(RNAseqDir,
-                  c("/rds/chem_noOsc/chem_noOsc_AMAvsN2_DESeq2_fullResults.rds",
-                    "/rds/chem_noOsc/chem_noOsc_FLAVOvsN2_DESeq2_fullResults.rds",
-                    "/rds/coh1_noOsc/coh1_noOsc_COH1vsTEVonly_DESeq2_fullResults.rds",
-                    "/rds/top1top2_noOsc/top1top2_noOsc_Top1AUXvsTIRAUX_DESeq2_fullResults.rds",
-                    "/rds/top1top2_noOsc/top1top2_noOsc_Top2AUXvsTIRAUX_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux0_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux0.5_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux1_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux2_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux0_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux0.5_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux1_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux2_DESeq2_fullResults.rds")))
+                  c("/rds/coh1_noOsc/coh1_noOsc_COH1vsTEVonly_DESeq2_fullResults.rds")))
 
 
 #' Function for adding count data to plots
@@ -127,9 +114,12 @@ fulltbl$type<-factor(fulltbl$type,levels=c("NoEnhancer",
                                                         "H3K27me3Repressed",
                                                         "mixedRepressed"))))
 table(fulltbl$type)
-fulltbl %>% dplyr::group_by(type) %>% summarise(minDist=min(closestEnhacer),
-                                                avrDist=mean(closestEnhacer),
+fulltbl %>% dplyr::group_by(type) %>% summarise(minDist=min(closestEnhancer),
+                                                avrDist=mean(closestEnhancer),
                                                 maxDist=max(closestEnhancer))
+fulltbl$upVdown<-NA
+fulltbl$upVdown[fulltbl$log2FoldChange>0]<-"up"
+fulltbl$upVdown[fulltbl$log2FoldChange<0]<-"down"
 #all genes
 p1<-ggplot(fulltbl[fulltbl$padj<padjVal,],aes(x=type,y=log2FoldChange,fill=type)) +
   #geom_violin(width=1) +
@@ -209,7 +199,7 @@ resLFC<-fulltbl
 #' @param padjVal Adjusted p value to be used for choosing significant genes
 #' @return Plot object
 #' @export
-makeVolcanxoSubPlot<-function(resLFC,subsetName, padjVal){
+makeVolcanoSubPlot<-function(resLFC,subsetName, padjVal){
   # get point colours
   keyvals<-rep('lightgrey', nrow(resLFC))
   names(keyvals)<-rep('NS',nrow(resLFC))

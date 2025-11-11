@@ -29,22 +29,9 @@ lfcVal=0.5
 RNAseqDir="/Users/semple/Documents/MeisterLab/otherPeopleProjects/Bolaji/BolajiRNAseq_20211216"
 
 fileList<-data.frame(
-  sampleName=c("AMA","FLAVO","COH1cs","TOP1","TOP2","TOP1_0h","TOP1_0.5h","TOP1_1h",
-                "TOP1_2h","TOP2_0h","TOP2_0.5h","TOP2_1h", "TOP2_2h"),
+  sampleName=c("COH1cs"),
   filePath=paste0(RNAseqDir,
-                  c("/rds/chem_noOsc/chem_noOsc_AMAvsN2_DESeq2_fullResults.rds",
-                    "/rds/chem_noOsc/chem_noOsc_FLAVOvsN2_DESeq2_fullResults.rds",
-                    "/rds/coh1_noOsc/coh1_noOsc_COH1vsTEVonly_DESeq2_fullResults.rds",
-                    "/rds/top1top2_noOsc/top1top2_noOsc_Top1AUXvsTIRAUX_DESeq2_fullResults.rds",
-                    "/rds/top1top2_noOsc/top1top2_noOsc_Top2AUXvsTIRAUX_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux0_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux0.5_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux1_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top1vsAux2_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux0_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux0.5_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux1_DESeq2_fullResults.rds",
-                    "/rds/top1top2moraoT_noOsc/top1top2moraoT_noOsc_Top2vsAux2_DESeq2_fullResults.rds")))
+                  c("/rds/coh1_noOsc/coh1_noOsc_COH1vsTEVonly_DESeq2_fullResults.rds")))
 
 fountains<-readRDS("/Users/semple/Documents/MeisterLab/otherPeopleProjects/fountains/detected_fountains_equalQ.RDS")
 fountains$fountainName<-paste0("fount",1:length(fountains))
@@ -105,11 +92,11 @@ pairwiseBoxPlotFunc<-function(df,gr,yvar="log2FoldChange",ymin=-1,ymax=1,facet_b
 }
 
 
-stl<-resultsByGRoverlap(fileList[3,],fountains)
+stl<-resultsByGRoverlap(fileList[fileList$sampleName=="COH1cs",],fountains)
 fountRes<-do.call(rbind,lapply(stl,as.data.frame))
 fountRes$regionType<-"fountain"
 
-stl<-resultsByGRoverlap(fileList[3,],nonFount)
+stl<-resultsByGRoverlap(fileList[fileList$sampleName=="COH1cs",],nonFount)
 nonFountRes<-do.call(rbind,lapply(stl,as.data.frame))
 nonFountRes$regionType<-"between"
 
@@ -137,12 +124,12 @@ ggsave(filename=paste0(outPath, "/plots/",fileNamePrefix,"LFCgenesInFountains",w
 
 ## sig genes 2kb
 stl<-resultsByGRoverlap(fileList,fountains,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 fountRes<-do.call(rbind,lapply(stl,as.data.frame))
 fountRes$regionType<-"fountain"
 
 stl<-resultsByGRoverlap(fileList,nonFount,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 nonFountRes<-do.call(rbind,lapply(stl,as.data.frame))
 nonFountRes$regionType<-"between"
 
@@ -155,12 +142,12 @@ ggsave(filename=paste0(outPath, "/plots/",fileNamePrefix,"LFCsigGenesInFountains
 
 ## sig genes 6kb
 stl<-resultsByGRoverlap(fileList,fountains_6kb,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 fountRes<-do.call(rbind,lapply(stl,as.data.frame))
 fountRes$regionType<-"fountain"
 
 stl<-resultsByGRoverlap(fileList,nonFount_6kb,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 nonFountRes<-do.call(rbind,lapply(stl,as.data.frame))
 nonFountRes$regionType<-"between"
 
@@ -249,7 +236,7 @@ plotBinFountainDistanceFunc<-function(res,fountains,sampleName,maxDist,binSize,p
 }
 
 
-subset<-c("AMA", "COH1cs", "TOP1", "TOP2", "TOP1_1h", "TOP1_2h", "TOP2_1h", "TOP2_2h")
+subset<-c("COH1cs")
 maxDist=10000
 binSize=1000
 plotList<-list()
@@ -439,7 +426,7 @@ ggsave(filename=paste0(outPath, "/plots/",fileNamePrefix,"LFCgeneFeatures_founta
 ##########################-
 
 stl<-resultsByGRoverlap(fileList,fountains,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 stl<-lapply(stl,as.data.frame)
 stl<-lapply(stl,dplyr::left_join,geneData,by="wormbaseID")
 lapply(stl,dim)
@@ -447,7 +434,7 @@ fountRes<-do.call(rbind,stl)
 fountRes$regionType<-"fountain"
 
 stl<-resultsByGRoverlap(fileList,nonFount,padjVal=0.05)
-stl<-stl[-which(lapply(stl,length)<10)]
+#stl<-stl[-which(lapply(stl,length)<10)]
 stl<-lapply(stl,as.data.frame)
 stl<-lapply(stl,dplyr::left_join,geneData,by="wormbaseID")
 lapply(stl,dim)
@@ -577,3 +564,4 @@ metadata[metadata$publicID %in% denh,]
 jenh<-c("daf-5","bro-1","hlh-2","ztf-11","bed-3")
 salmon[salmon$publicID %in% jenh,]
 metadata[metadata$publicID %in% jenh,]
+

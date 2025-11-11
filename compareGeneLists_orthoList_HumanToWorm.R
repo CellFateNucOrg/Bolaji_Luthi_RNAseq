@@ -69,27 +69,6 @@ filtOrtholist<-filtOrtholist[filtOrtholist$WormBase.ID %in% metadata$wormbaseID[
 dim(filtOrtholist)
 length(unique(filtOrtholist$WormBase.ID))
 
-# numProgs="best_rev"
-# ortholist<-read.delim(paste0(outPath,"/publicData/DIOPTorthologs_worm-human_20230615.tsv"))
-# length(unique(ortholist$wormbaseID)) #8228 (ortholist) -> 11821 (diopt)
-# length(unique(ortholist$symbol)) #11433 (ortholist) -> 15749 (diopt)
-#
-# #names(ortholist)<-make.names(names(ortholist))
-# length(unique(ortholist$wormbaseID[ortholist$best_score=="Yes"]))  #11821
-# length(unique(ortholist$symbol[ortholist$best_score=="Yes"])) #9894
-# length(unique(ortholist$symbol[ortholist$best_score_rev=="Yes"])) #15738
-#
-# #filtOrtholist<-ortholist[ortholist$confidence %in% c("high"),]
-# filtOrtholist<-ortholist[ortholist$best_score_rev=="Yes",]
-# dim(filtOrtholist)
-# #dim(filtOrtholist)
-# idx<-filtOrtholist$wormbaseID %in% metadata$wormbaseID[metadata$oscillating=="no"]
-# filtOrtholist<-filtOrtholist[idx,]
-# dim(filtOrtholist)
-#
-# length(unique(filtOrtholist$wormbaseID))
-
-
 salmon<-as.data.frame(salmon)[as.data.frame(salmon)$wormbaseID %in% filtOrtholist$WormBase.ID,]
 #salmon<-as.data.frame(salmon)[as.data.frame(salmon)$wormbaseID %in% filtOrtholist$wormbaseID,]
 
@@ -122,29 +101,6 @@ sigGenes[["cdlDown"]]<-cdlDown$WormBase.ID
 #sigGenes[["cdlUp"]]<-cdlUp$wormbaseID
 #sigGenes[["cdlDown"]]<-cdlDown$wormbaseID
 
-
-### scc-1 genes
-# scc1<-readRDS("/Users/semple/Documents/MeisterLab/papers/Moushumi1/p0.05_lfc0.5_filtCycChrAX/filtCycChrAX_X.wt.wt.0mM_scc16cs_vs_wt_DESeq2_fullResults_p0.05.rds")
-# scc1$padj[is.na(scc1$padj)]<-1
-#
-# #scc1<-inner_join(data.frame(scc1),filtOrtholist,by=join_by("wormbaseID"=="wormbaseID"))
-#
-# #scc1Up<-data.frame(Wormbase.ID=getSignificantGenes(scc1, padj=padjVal, lfc=lfcVal,
-#                                                    namePadjCol="padj",
-#                                                    nameLfcCol="log2FoldChange",
-#                                                    direction="gt",
-#                                                    chr="all", nameChrCol="chr")$wormbaseID)
-#
-# scc1Down<-data.frame(Wormbase.ID=getSignificantGenes(scc1, padj=padjVal, lfc=lfcVal,
-#                                                      namePadjCol="padj",
-#                                                      nameLfcCol="log2FoldChange",
-#                                                      direction="lt",
-#                                                      chr="all", nameChrCol="chr")$wormbaseID)
-#
-#
-#
-# sigGenes[["SCC-1cs.up"]]<-unique(scc1Up$Wormbase.ID)
-# sigGenes[["SCC-1cs.down"]]<-unique(scc1Down$Wormbase.ID)
 
 
 

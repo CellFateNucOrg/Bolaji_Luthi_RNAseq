@@ -245,9 +245,9 @@ sigUp<-data.frame(getSignificantGenes(salmon, padj=padjVal, lfc=lfcVal,
                                                   chr="all", nameChrCol="chr"))
 
 
-sal<-inner_join(as.data.frame(salmon),ortholist[ortholist$No..of.Programs>=numProgs,],by=join_by("wormbaseID"=="WormBase.ID"))
+sal<-inner_join(as.data.frame(salmon),ortholist[ortholist$count>=numProgs,],by=join_by("wormbaseID"=="wormbaseID"))
 
-ij<-inner_join(sal,cdl,by=join_by("HGNC.Symbol"=="Gene.Symbol"))
+ij<-inner_join(sal,cdl,by=join_by("symbol"=="Gene.Symbol"))
 
 plot(ij$log2FoldChange.y,ij$log2FoldChange.x,xlab=)
 abline(v=0,h=0)
@@ -421,3 +421,4 @@ pp1 = GSEAplots(input.ds.name=expr.input,
                upper_percent=0.1,
                color_line="black",
                color_tick="black")
+
