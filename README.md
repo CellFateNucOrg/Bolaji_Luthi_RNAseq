@@ -114,11 +114,11 @@ As QC, compared results with DESeq2 results from Das et al. where same RNAseq wa
 
 **GO and tissue enrichement:**
 
-*./compareTissueAndGO.R
+*./compareTissueAndGO.R*
 
-./allPlots_TEA.Rmd
+*./allPlots_TEA.Rmd*
 
-./allPlots_WORMCAT.Rmd*
+*./allPlots_WORMCAT.Rmd*
 
 
 **Compare to single cell RNAseq:**
@@ -128,11 +128,11 @@ As QC, compared results with DESeq2 results from Das et al. where same RNAseq wa
 
 **Gene set enrichment and orthologs in CdLS:**
 
-*./compareGeneLists_diopt_WormToHuman.R
+*./compareGeneLists_diopt_WormToHuman.R*
 
-./compareGeneLists_ortholist_WormToHuman.R
+*./compareGeneLists_ortholist_WormToHuman.R*
 
-./compareGeneLists_ortholist_HumanToWorm.R*
+*./compareGeneLists_ortholist_HumanToWorm.R*
 
 ### 2. Differentail transcript expression (Sleuth)
 
