@@ -106,9 +106,11 @@ As QC, compared results with DESeq2 results from Das et al. where same RNAseq wa
 
 *./compareGenesWithEnhancers.R*
 
+
 **Fountain features:**
 
 *./compareAtFountains.R*
+
 
 **GO and tissue enrichement:**
 
@@ -118,11 +120,13 @@ As QC, compared results with DESeq2 results from Das et al. where same RNAseq wa
 
 ./allPlots_WORMCAT.Rmd*
 
-**compare to single cell RNAseq:**
+
+**Compare to single cell RNAseq:**
 
 *./compareToScRNAseq.R*
 
-**Gene set enrichment and orthologs in CdLS**
+
+**Gene set enrichment and orthologs in CdLS:**
 
 *./compareGeneLists_diopt_WormToHuman.R
 
