@@ -102,6 +102,8 @@ As QC, compared results with DESeq2 results from Das et al. where same RNAseq wa
 
 ### 1.4 Further analysis
 
+NOTE: Many libraries used in these scripts require installation in R as they were not included in the setup files.
+
 **Enhancers:**
 
 *./compareGenesWithEnhancers.R*
