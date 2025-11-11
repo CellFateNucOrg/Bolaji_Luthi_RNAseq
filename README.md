@@ -69,11 +69,11 @@ run script:
 
 Place all desired .fastq.gz files in a folder and create a <fastqList>.csv with the column structure:
 
-    #fastqFile,sampleID,strain,AIDgene,TIR1,Auxin,Drug
- 
+    #fastqFile,sampleID,strain
+    
 If you have PE sequencing, use the following headers:
     
-    #fastqFile1,fastqFile2,sampleName,strain,AIDgene,TIR1,Auxin,Drug
+    #fastqFile1,fastqFile2,sampleName,strain
     
 Names of the fastqFiles (with full path) and the sampleName (sampleName must be unique to each row) are essential for mapping. The other fields are used by DESeq2 to create appropriate comparison groupings and can be changed according to your data.
 
